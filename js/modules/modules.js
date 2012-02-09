@@ -53,12 +53,8 @@ app.core.define('#todo-entry', function(f){
     return {
         init: function (){
 
-            console.log(button);
-
             input = f.find('input')[0],
             button = f.find('button')[0];
-
-            console.log(button);
 
             f.bind(button, 'click', this.handleEntry);
             f.bind(input, 'keydown', this.handleKey);
@@ -72,7 +68,6 @@ app.core.define('#todo-entry', function(f){
         },
 
         handleEntry: function (){
-            console.log('test');
             f.publish({
                 type : 'new-entry',
                 data : {value: input.value, id: f.newGUID()}
@@ -80,7 +75,6 @@ app.core.define('#todo-entry', function(f){
         },
 
         handleKey: function(e){
-            console.log('aaa');
             if(e.which == 13){
                 f.publish({
                     type : 'new-entry',

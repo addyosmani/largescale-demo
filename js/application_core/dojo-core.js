@@ -48,7 +48,7 @@ app.core = (function(){
         },
 
         throwError: function(errType, msg){
-            console.log(errType, msg);
+            //console.log(errType, msg);
         },
 
         events: {
@@ -62,7 +62,6 @@ app.core = (function(){
                 }
             },
             trigger: function(events){
-                console.log('trigger',events);
                 if(app.core.dom.isObject(events)){
                     var mod;
                     for(mod in data){
@@ -175,8 +174,6 @@ app.core = (function(){
                     q = dojo.attr(dojo.query(el)[0], attribs);    
                 } //string
                 else if(app.utils.typeEqual(el, 'string')){
-                    console.log('stringy');
-                    console.log('stringy', el, attribs);
 
                     //currently only handling id
                     q = dojo.attr(dojo.byId(el), attribs);  
@@ -207,7 +204,6 @@ app.core = (function(){
 
                 //chaining
                 if(this._elements != undefined){
-                    console.log()
                     el  = this._elements;
                 }
                 // string selector

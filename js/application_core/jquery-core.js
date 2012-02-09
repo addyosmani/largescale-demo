@@ -48,7 +48,7 @@ app.core = (function(){
         },
 
         throwError: function(errType, msg){
-            console.log(errType, msg);
+            //console.log(errType, msg);
         },
 
         events: {
@@ -149,17 +149,14 @@ app.core = (function(){
 
                 //jQuery object
                 if(el instanceof jQuery){
-                    console.log('inst of jq');
                          q =  el.attr(attribs);
                 }else{
                     //string
                     if(app.utils.typeEqual(el, 'string')){
-                        console.log('inst of str');
                         q =  app.core.dom.$(el).attr(attribs);
                     }
                     //array
                     else if(app.utils.typeEqual(el, 'array')){
-                        console.log('inst of arra');
                         q =  app.core.dom.$(el).attr(attribs);
                     }else{
                          q =  el;
@@ -200,7 +197,6 @@ app.core = (function(){
 
                 //chaining
                 if(this._elements != undefined){
-                    console.log()
                     el  = this._elements;
                 }
 
