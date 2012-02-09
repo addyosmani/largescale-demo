@@ -3,7 +3,6 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Todo example</title>
-    <link rel="stylesheet" href="css/default.css" />
     <link rel="stylesheet" href="css/todo.css" />
 </head>
 <body>
@@ -14,18 +13,20 @@
             Todos
             </div>
             <div id="todo-counter">
-                    Items:<div id="count"></div>
+                    <div id="count">0</div>
             </div>
         </div>
 
         <div id="todo-entry">
+        <p>&nbsp;</p>
           <input id="todo-field" type="text" placeholder="Enter some text for this entry"/>
-          <a class="btn">Add</a>
+          <button class="btn">Add</button>
         </div>
 
         <div id="todo-list">
             <ul></ul> 
         </div> 
+
     </div>
 
         <!-- uncomment the set of libraries and core you would like to use -->
@@ -45,7 +46,6 @@
 
         
 
-        
         
 </body>
 </html>
