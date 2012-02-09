@@ -7,7 +7,7 @@ app.core.define('#todo-counter', function(f){
         init:function(){
             counter = f.find('#count')[0];
             f.subscribe({
-                'new-entry' : this.updateCounter
+                'entry-validated' : this.updateCounter
             });
 
         },
@@ -36,7 +36,7 @@ app.core.define('#todo-field', function(f){
             input = f.getEl();
 
             f.subscribe({
-                'new-entry' : this.clearEntry       
+                'entry-validated' : this.clearEntry       
             });
         },
         destroy:function(){
@@ -89,27 +89,57 @@ app.core.define('#todo-entry', function(f){
 
 
 
-app.core.define('#error', function(f){
-    var errorHolder;
-    
+app.core.define('#validate', function(f){
     return {
         init: function(){
-            errorHolder = f.find('#alert')[0];
-
             f.subscribe({
-                'input-error' : this.showError        
+                'new-entry' : this.validateEntry    
             });
         },
 
         destroy: function(){
-            errorHolder = null;
         },
 
-        showError: function( msg ){
-            f.setHTML(errorHolder, msg.value);
+        validateEntry: function ( todoItem ){
+            if(todoItem.value == ""){
+               f.publish({
+                    type : 'input-error',
+                    data : {value: 'Please ensure your input is valid'}
+                });
+            }else{
+                 f.publish({
+                    type : 'entry-validated',
+                    data : todoItem
+                });
+            }
         }
     }    
 });
+
+
+app.core.define('#error', function(f){
+    var errorNotice;
+    
+    return {
+        init: function(){
+            errorNotice = f.find('#alert')[0];
+
+            f.subscribe({
+                'input-error' : this.showError        
+            });
+
+        },
+
+        destroy: function(){
+            errorNotice = null;
+        },
+
+        showError: function( msg ){
+            f.setHTML(errorNotice, msg.value);
+        }
+    }    
+});
+
 
 app.core.define("#todo-list", function (f) {
     var todo, todoItems, renderedItems;
@@ -120,7 +150,7 @@ app.core.define("#todo-list", function (f) {
             todoItems = {};
 
             f.subscribe({
-                'new-entry' : this.addItem        
+                'entry-validated' : this.addItem        
             });
 
         },
@@ -133,8 +163,6 @@ app.core.define("#todo-list", function (f) {
         addItem : function ( todoItem ) {
             var entry; 
 
-            if(todoItem.value !== ""){
-
                 entry = f.createElement("li", { 
                     id : "todo-" + todoItem.id, 
                     children : [
@@ -142,7 +170,6 @@ app.core.define("#todo-list", function (f) {
                         ],
                     'class' : 'todo_entry' 
                 });
-
                 
                 todo.appendChild(entry);
                 
@@ -150,17 +177,11 @@ app.core.define("#todo-list", function (f) {
                 f.css(entry, {'color': f.getRandomColor(), 'background': f.getRandomColor()});
                 f.animate(entry, {'line-height':'50'}, 500);
                 todoItems[todoItem.id] = 1;
-
-            }else{
-                 f.publish({
-                    type : 'input-error',
-                    data : {value: 'Please input a valid todo entry'}
-                });
-            }
             
         }
     };
 });
+
 
 
 app.core.startAll();

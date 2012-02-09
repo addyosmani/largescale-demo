@@ -149,7 +149,7 @@ app.core = (function(){
 
                 //jQuery object
                 if(el instanceof jQuery){
-                         q =  el.attr(attribs);
+                    q =  el.attr(attribs);
                 }else{
                     //string
                     if(app.utils.typeEqual(el, 'string')){
