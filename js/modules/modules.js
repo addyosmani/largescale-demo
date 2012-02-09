@@ -8,7 +8,8 @@ app.core.define('#todo-counter', function(f){
             counter = f.find('#count')[0];
             f.subscribe({
                 'new-entry' : this.updateCounter
-            })
+            });
+
         },
         destroy:function(){
             counter = null;
@@ -88,6 +89,27 @@ app.core.define('#todo-entry', function(f){
 
 
 
+app.core.define('#error', function(f){
+    var errorHolder;
+    
+    return {
+        init: function(){
+            errorHolder = f.find('#alert')[0];
+
+            f.subscribe({
+                'input-error' : this.showError        
+            });
+        },
+
+        destroy: function(){
+            errorHolder = null;
+        },
+
+        showError: function( msg ){
+            f.setHTML(errorHolder, msg.value);
+        }
+    }    
+});
 
 app.core.define("#todo-list", function (f) {
     var todo, todoItems, renderedItems;
@@ -111,21 +133,30 @@ app.core.define("#todo-list", function (f) {
         addItem : function ( todoItem ) {
             var entry; 
 
-            entry = f.createElement("li", { 
-                id : "todo-" + todoItem.id, 
-                children : [
-                        f.createElement("span", { 'class' : 'item_name',text : todoItem.value })
-                    ],
-                'class' : 'todo_entry' 
-            });
+            if(todoItem.value !== ""){
 
-            
-            todo.appendChild(entry);
-            
-            entry = f.find('#todo-' + todoItem.id)[0];
-            f.css(entry, {'color': f.getRandomColor(), 'background': f.getRandomColor()});
-            f.animate(entry, {'line-height':'50'}, 500);
-            todoItems[todoItem.id] = 1;
+                entry = f.createElement("li", { 
+                    id : "todo-" + todoItem.id, 
+                    children : [
+                            f.createElement("span", { 'class' : 'item_name',text : todoItem.value })
+                        ],
+                    'class' : 'todo_entry' 
+                });
+
+                
+                todo.appendChild(entry);
+                
+                entry = f.find('#todo-' + todoItem.id)[0];
+                f.css(entry, {'color': f.getRandomColor(), 'background': f.getRandomColor()});
+                f.animate(entry, {'line-height':'50'}, 500);
+                todoItems[todoItem.id] = 1;
+
+            }else{
+                 f.publish({
+                    type : 'input-error',
+                    data : {value: 'Please input a valid todo entry'}
+                });
+            }
             
         }
     };
