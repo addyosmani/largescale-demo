@@ -1,1 +1,1 @@
-Something quick shown at @jquk. I'll be fleshing it out further at a later point.
+A demo implementation of an application architecture shown during my talk at jQuery Conf. Europe. Please note that the code in this repo should be considered an example only and should only be used as reference for implementing the patterns described in your own application.
